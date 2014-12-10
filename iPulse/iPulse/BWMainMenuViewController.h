@@ -27,21 +27,8 @@
  https://github.com/Wojdan/iPulse
  */
 
-#import "AppDelegate.h"
+#import <UIKit/UIKit.h>
 
-@interface AppDelegate ()
-
-@end
-
-@implementation AppDelegate
-
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-    [UILabel appearance].textColor = [UIColor whiteColor];
-
-    return YES;
-}
-
+@interface BWMainMenuViewController : UIViewController
 
 @end

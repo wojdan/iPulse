@@ -27,21 +27,28 @@
  https://github.com/Wojdan/iPulse
  */
 
-#import "AppDelegate.h"
+#import "BWButton.h"
 
-@interface AppDelegate ()
+@implementation BWButton
 
-@end
+- (id)initWithCoder:(NSCoder *)aDecoder {
 
-@implementation AppDelegate
+    self = [super initWithCoder:aDecoder];
+    if (self) {
 
+        self.backgroundColor = [UIColor clearColor];
+        self.layer.cornerRadius = CGRectGetHeight(self.frame)/2;
+        self.layer.borderWidth = 1;
+        self.layer.borderColor = [UIColor whiteColor].CGColor;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+        self.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:16.f];
 
-    [UILabel appearance].textColor = [UIColor whiteColor];
+        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
 
-    return YES;
+    }
+    return self;
+
 }
-
 
 @end

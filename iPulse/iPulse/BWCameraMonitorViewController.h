@@ -27,21 +27,15 @@
  https://github.com/Wojdan/iPulse
  */
 
-#import "AppDelegate.h"
+#import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
+#import "HeartRateChart.h"
 
-@interface AppDelegate ()
-
-@end
-
-@implementation AppDelegate
-
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-    [UILabel appearance].textColor = [UIColor whiteColor];
-
-    return YES;
+@interface BWCameraMonitorViewController : UIViewController<AVCaptureVideoDataOutputSampleBufferDelegate, HeartRateChartDelegate> {
+    AVCaptureSession *session;
 }
 
+@property (weak, nonatomic) IBOutlet HeartRateChart *chart;
++ (BWCameraMonitorViewController*)controller;
 
 @end

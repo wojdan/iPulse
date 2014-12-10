@@ -26,22 +26,52 @@
 
  https://github.com/Wojdan/iPulse
  */
+#import "BWMainMenuViewController.h"
+#import "BWInstructionsViewController.h"
 
-#import "AppDelegate.h"
-
-@interface AppDelegate ()
+@interface BWMainMenuViewController ()
 
 @end
 
-@implementation AppDelegate
+@implementation BWMainMenuViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame:self.view.frame];
+    backgroundView.image = [UIImage imageNamed:@"bg"];
+    [self.view addSubview:backgroundView];
+    [self.view sendSubviewToBack:backgroundView];
 
-    [UILabel appearance].textColor = [UIColor whiteColor];
-
-    return YES;
 }
 
 
+#pragma mark - IBActions
+- (IBAction)cameraModeSelected:(id)sender {
+
+    BWInstructionsViewController *instructionsViewController = [BWInstructionsViewController controllerWithMode:BWExaminationMode_Camera];
+    [self.navigationController pushViewController:instructionsViewController animated:YES];
+
+}
+
+- (IBAction)microphoneModeSelected:(id)sender {
+
+    BWInstructionsViewController *instructionsViewController = [BWInstructionsViewController controllerWithMode:BWExaminationMode_Microphone];
+    [self.navigationController pushViewController:instructionsViewController animated:YES];
+
+}
+
+- (IBAction)manualModeSelected:(id)sender {
+
+    BWInstructionsViewController *instructionsViewController = [BWInstructionsViewController controllerWithMode:BWExaminationMode_Manual];
+    [self.navigationController pushViewController:instructionsViewController animated:YES];
+
+}
+
+- (IBAction)learnMoreButtonClicked:(id)sender {
+
+    NSURL *url = [NSURL URLWithString:@"https://github.com/Wojdan/iPulse"];
+    [[UIApplication sharedApplication] openURL:url];
+
+}
 @end

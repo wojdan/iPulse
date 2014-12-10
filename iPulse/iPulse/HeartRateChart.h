@@ -27,21 +27,27 @@
  https://github.com/Wojdan/iPulse
  */
 
-#import "AppDelegate.h"
+#import <UIKit/UIKit.h>
 
-@interface AppDelegate ()
+@protocol HeartRateChartDelegate <NSObject>
+
+-(void)foundHeartRate:(NSNumber *)rate;
+-(void)updateInfoLabel:(NSString *)info;
 
 @end
 
-@implementation AppDelegate
-
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-    [UILabel appearance].textColor = [UIColor whiteColor];
-
-    return YES;
+@interface HeartRateChart : UIView {
+    NSMutableArray *points;
+    NSMutableArray *pointsToDraw;
 }
 
+@property (nonatomic, assign) id<HeartRateChartDelegate> delegate;
+@property (nonatomic, retain) NSMutableArray *points;
+@property (nonatomic, retain) NSMutableArray *pointsToDraw;
+@property (nonatomic, retain) NSMutableArray *filteredPoints;
+@property (nonatomic) int pointCount;
+
+
+-(void) addPoint:(NSNumber *) newPoint;
 
 @end

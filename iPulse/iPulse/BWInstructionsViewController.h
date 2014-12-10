@@ -27,21 +27,20 @@
  https://github.com/Wojdan/iPulse
  */
 
-#import "AppDelegate.h"
+#import <UIKit/UIKit.h>
 
-@interface AppDelegate ()
+typedef enum BWExaminationMode : NSUInteger{
 
-@end
+    BWExaminationMode_None = 0,
+    BWExaminationMode_Camera,
+    BWExaminationMode_Microphone,
+    BWExaminationMode_Manual
 
-@implementation AppDelegate
+} BWExaminationMode;
 
+@interface BWInstructionsViewController : UIViewController
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-    [UILabel appearance].textColor = [UIColor whiteColor];
-
-    return YES;
-}
-
+@property (nonatomic) BWExaminationMode mode;
++ (BWInstructionsViewController*)controllerWithMode:(BWExaminationMode)mode;
 
 @end
