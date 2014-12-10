@@ -27,11 +27,12 @@
  https://github.com/Wojdan/iPulse
  */
 
-#import "BWCameraMonitorViewController.h"
+#import "BWMicrophoneViewController.h"
 #import "BWResultsViewController.h"
-#import <QuartzCore/QuartzCore.h>
+#import "Novocaine/Novocaine.h"
+#import "HearBeatChart.h"
 
-@interface BWCameraMonitorViewController ()
+@interface BWMicrophoneViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *pulseLabel;
 @property (weak, nonatomic) IBOutlet UILabel *bpmLabel;
@@ -43,7 +44,7 @@
 
 @end
 
-@implementation BWCameraMonitorViewController
+@implementation BWMicrophoneViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -79,12 +80,11 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
-    [session stopRunning];
-    session = nil;
-
     [self.examinationFinishTimer invalidate];
     self.examinationFinishTimer = nil;
 
+    [self.audioManager pause];
+    self.audioManager = nil;
 }
 
 -(void)dealloc {
@@ -92,113 +92,51 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.examinationFinishTimer invalidate];
     self.examinationFinishTimer = nil;
-    
+
 }
 
 - (void)launchSession {
-    if (session && session.isRunning) {
-        [session stopRunning];
-        session = nil;
-        [self.pulses removeAllObjects];
-    }
-    session = [[AVCaptureSession alloc] init];
+
+    [self.pulses removeAllObjects];
     self.pulses = [NSMutableArray new];
+    self.audioManager = nil;
+    self.audioManager = [Novocaine audioManager];
 
-    AVCaptureDevice* camera = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    if([camera isTorchModeSupported:AVCaptureTorchModeOn]) {
-        [camera lockForConfiguration:nil];
-        camera.torchMode=AVCaptureTorchModeOn;
-        camera.activeVideoMinFrameDuration = CMTimeMake(1,15);
-        camera.activeVideoMaxFrameDuration = CMTimeMake(1,15);
-        [camera unlockForConfiguration];
-    }
+    __block float magnitude = 0.0;
+    [self.audioManager setInputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels)
+     {
+         vDSP_rmsqv(data, 1, &magnitude, numFrames*numChannels);
+     }];
 
+    __weak BWMicrophoneViewController * wself = self;
 
-    NSError *error=nil;
-    AVCaptureInput* cameraInput = [[AVCaptureDeviceInput alloc] initWithDevice:camera error:&error];
-    if (cameraInput == nil) {
-        NSLog(@"Error to create camera capture:%@",error);
-    }
+    __block float frequency = 100.0;
+    __block float phase = 0.0;
+    __weak HearBeatChart *weakChart = self.chart;
+    [self.audioManager setOutputBlock:^(float *data, UInt32 numFrames, UInt32 numChannels)
+     {
 
-    AVCaptureVideoDataOutput* videoOutput = [[AVCaptureVideoDataOutput alloc] init];
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [weakChart addPoint:@(-magnitude*30)];
+         });
 
-    dispatch_queue_t captureQueue=dispatch_queue_create("catpureQueue", NULL);
+         float samplingRate = wself.audioManager.samplingRate;
+         for (int i=0; i < numFrames; ++i)
+         {
+             for (int iChannel = 0; iChannel < numChannels; ++iChannel)
+             {
+                 float theta = phase * M_PI * 2;
+                 data[i*numChannels + iChannel] = magnitude*sin(theta);
+             }
+             phase += 1.0 / (samplingRate / (frequency));
+             if (phase > 1.0) phase = -1;
+         }
+     }];
 
-    [videoOutput setSampleBufferDelegate:self queue:captureQueue];
+    [self.audioManager play];
 
-    videoOutput.videoSettings = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithUnsignedInt:kCVPixelFormatType_32BGRA], (id)kCVPixelBufferPixelFormatTypeKey,
-                                 nil];
-    videoOutput.minFrameDuration=CMTimeMake(1, 15);
-    [session setSessionPreset:AVCaptureSessionPresetLow];
-
-    [session addInput:cameraInput];
-    [session addOutput:videoOutput];
-    
-    [session startRunning];
 }
 
-void RGBtoHSV( float r, float g, float b, float *h, float *s, float *v ) {
-    float min, max, delta;
-    min = MIN( r, MIN(g, b ));
-    max = MAX( r, MAX(g, b ));
-    *v = max;
-    delta = max - min;
-    if( max != 0 )
-        *s = delta / max;
-    else {
-        // r = g = b = 0
-        *s = 0;
-        *h = -1;
-        return;
-    }
-    if( r == max )
-        *h = ( g - b ) / delta;
-    else if( g == max )
-        *h=2+(b-r)/delta;
-    else
-        *h=4+(r-g)/delta;
-    *h *= 60;
-    if( *h < 0 )
-        *h += 360;
-}
-
-- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
-    static int count=0;
-    count++;
-    CVImageBufferRef cvimgRef = CMSampleBufferGetImageBuffer(sampleBuffer);
-    CVPixelBufferLockBaseAddress(cvimgRef,0);
-    int width=CVPixelBufferGetWidth(cvimgRef);
-    int height=CVPixelBufferGetHeight(cvimgRef);
-    uint8_t *buf=(uint8_t *) CVPixelBufferGetBaseAddress(cvimgRef);
-    size_t bprow=CVPixelBufferGetBytesPerRow(cvimgRef);
-    float r=0,g=0,b=0;
-    for(int y=0; y<height; y++) {
-        for(int x=0; x<width*4; x+=4) {
-            b+=buf[x];
-            g+=buf[x+1];
-            r+=buf[x+2];
-        }
-        buf+=bprow;
-    }
-    r/=255*(float) (width*height);
-    g/=255*(float) (width*height);
-    b/=255*(float) (width*height);
-
-    float h,s,v;
-
-    RGBtoHSV(r, g, b, &h, &s, &v);
-
-    static float lastH=0;
-    float highPassValue=h-lastH;
-    lastH=h;
-    float lastHighPassValue=0;
-    float lowPassValue=(lastHighPassValue+highPassValue)/2;
-    lastHighPassValue=highPassValue;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-    [self.chart performSelectorOnMainThread:@selector(addPoint:) withObject:[NSNumber numberWithFloat:lowPassValue] waitUntilDone:NO];
-    });
-}
 
 -(void)foundHeartRate:(NSNumber *)rate {
 
@@ -224,9 +162,6 @@ void RGBtoHSV( float r, float g, float b, float *h, float *s, float *v ) {
 
 - (void)finishExamination {
 
-    [session stopRunning];
-    session = nil;
-
     float mean = 0;
     for(NSNumber* pulse in self.pulses) {
         mean += [pulse floatValue];
@@ -250,15 +185,15 @@ void RGBtoHSV( float r, float g, float b, float *h, float *s, float *v ) {
 - (IBAction)backButtonClicked:(id)sender {
 
     [self.navigationController popViewControllerAnimated:YES];
-    
+
 }
 
 #pragma mark - Class methods
 
-+ (BWCameraMonitorViewController*)controller {
-
-    return [[UIStoryboard storyboardWithName:@"CameraMonitorViewController" bundle:nil] instantiateInitialViewController];
-
++ (BWMicrophoneViewController*)controller {
+    
+    return [[UIStoryboard storyboardWithName:@"MicrophoneMonitorViewController" bundle:nil] instantiateInitialViewController];
+    
 }
 
 @end

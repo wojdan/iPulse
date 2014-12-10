@@ -28,26 +28,19 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
+#import "HearBeatChart.h"
+#import "Novocaine/Novocaine.h"
 
-@protocol HeartRateChartDelegate <NSObject>
-
-- (void)foundHeartRate:(NSNumber *)rate;
-- (void)updateInfoLabel:(NSString *)info;
-
-@end
-
-@interface HeartRateChart : UIView {
-    NSMutableArray *points;
-    NSMutableArray *pointsToDraw;
+@interface BWMicrophoneViewController : UIViewController<AVCaptureVideoDataOutputSampleBufferDelegate, HearBeatChartDelegate> {
+    AVCaptureSession *session;
 }
 
-@property (nonatomic, assign) id<HeartRateChartDelegate> delegate;
-@property (nonatomic, retain) NSMutableArray *points;
-@property (nonatomic, retain) NSMutableArray *pointsToDraw;
-@property (nonatomic, retain) NSMutableArray *filteredPoints;
-@property (nonatomic) int pointCount;
+@property (weak, nonatomic) IBOutlet HearBeatChart *chart;
+@property (nonatomic, strong) Novocaine *audioManager;
 
+@property (nonatomic, strong) NSMutableArray *magnitudes;
 
--(void) addPoint:(NSNumber *) newPoint;
++ (BWMicrophoneViewController*)controller;
 
 @end

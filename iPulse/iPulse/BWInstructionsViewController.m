@@ -28,6 +28,8 @@
  */
 #import "BWInstructionsViewController.h"
 #import "BWCameraMonitorViewController.h"
+#import "BWMicrophoneViewController.h"
+#import "BWManualMonitorViewController.h"
 
 @interface BWInstructionsViewController ()
 
@@ -92,6 +94,15 @@
     switch (self.mode) {
         case BWExaminationMode_Camera:
             [self.navigationController pushViewController:[BWCameraMonitorViewController controller] animated:YES];
+            break;
+
+        case BWExaminationMode_Microphone:
+            [self.navigationController pushViewController:[BWMicrophoneViewController controller] animated:YES];
+            break;
+
+
+        case BWExaminationMode_Manual:
+            [self.navigationController pushViewController:[BWManualMonitorViewController controller] animated:YES];
             break;
 
         default:

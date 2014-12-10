@@ -29,19 +29,18 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol HeartRateChartDelegate <NSObject>
+@protocol HearBeatChartDelegate <NSObject>
 
 - (void)foundHeartRate:(NSNumber *)rate;
 - (void)updateInfoLabel:(NSString *)info;
 
 @end
 
-@interface HeartRateChart : UIView {
-    NSMutableArray *points;
+@interface HearBeatChart : UIView {
     NSMutableArray *pointsToDraw;
 }
 
-@property (nonatomic, assign) id<HeartRateChartDelegate> delegate;
+@property (nonatomic, assign) id<HearBeatChartDelegate> delegate;
 @property (nonatomic, retain) NSMutableArray *points;
 @property (nonatomic, retain) NSMutableArray *pointsToDraw;
 @property (nonatomic, retain) NSMutableArray *filteredPoints;

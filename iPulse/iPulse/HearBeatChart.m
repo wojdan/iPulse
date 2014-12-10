@@ -27,20 +27,26 @@
  https://github.com/Wojdan/iPulse
  */
 
+#import "HearBeatChart.h"
 
-#import "HeartRateChart.h"
+#define FPS 43
+#define VISABLE_SAMPLES 162
 
-#define FPS 15
+@interface HearBeatChart ()
 
-@implementation HeartRateChart
+@property (nonatomic, strong) NSString *documentTXTPath;
+
+@end
+
+@implementation HearBeatChart
 
 @synthesize points, pointsToDraw;
 
 - (id)initWithFrame:(CGRect)frame {
-    
+
     self = [super initWithFrame:frame];
     if (self) {
-
+        // Initialization code.
     }
     return self;
 }
@@ -49,6 +55,9 @@
 
     self = [super initWithCoder:aDecoder];
     self.pointCount = 0;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    self.documentTXTPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"data%d", (unsigned int)[[NSDate new] timeIntervalSince1970]]];
 
     return self;
 
@@ -59,29 +68,24 @@
 }
 
 - (void)drawOriginalSignal {
-
     if(pointsToDraw.count==0) return;
 
     CGContextRef context=UIGraphicsGetCurrentContext();
     CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
     CGContextSetLineWidth(context, 2);
     CGContextBeginPath(context);
-    float xpos=self.bounds.size.width;
-    float ypos=self.bounds.size.height/2;
+    float xpos = self.bounds.size.width;
+    float ypos = 4*self.bounds.size.height/5;
 
     CGContextMoveToPoint(context, xpos, ypos);
     for(int i=0; i<pointsToDraw.count; i++) {
-        xpos-=4;
-
-        if (xpos < -20) {
-            break;
-        }
+        xpos-=2;
 
         float ypos=[[pointsToDraw objectAtIndex:i] floatValue];
-        if(isnan(ypos) || ABS(ypos) > 2) {
+        if(isnan(ypos)) {
             continue;
         }
-        CGContextAddLineToPoint(context, xpos, self.bounds.size.height/2+ypos*self.bounds.size.height/6);
+        CGContextAddLineToPoint(context, xpos, 4*self.bounds.size.height/5+ypos*self.bounds.size.height/3);
     }
     CGContextStrokePath(context);
 }
@@ -89,38 +93,39 @@
 -(void) addPoint:(NSNumber *) newPoint {
     if(!points) {
         points=[[NSMutableArray alloc] init];
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < VISABLE_SAMPLES; i++) {
             [points addObject:@(0)];
         }
     }
-	[points insertObject:newPoint atIndex:0];
-	while(points.count>FPS * 12) {
-		[points removeLastObject];
-	}
+    [points insertObject:newPoint atIndex:0];
+    while(points.count>FPS * 20) {
+        [points removeLastObject];
+    }
 
     self.pointCount++;
     if (self.pointCount == 60) {
         [self runFindingPulsAlgorithmWithCompletionHandler:^(BOOL success, float pulse) {
 
-
         }];
         self.pointCount = 0;
     }
+
     self.pointsToDraw = [self.points mutableCopy];
     [self meanSignalForDrawing:self.pointsToDraw];
-	[self setNeedsDisplay];
+    [self smoothSignal:self.pointsToDraw];
+    [self setNeedsDisplay];
 }
 
 - (void)runFindingPulsAlgorithmWithCompletionHandler:(void (^)(BOOL success, float pulse))handler {
 
     NSMutableArray *signal = [self.points mutableCopy];
-    if ([signal count] < FPS * 5) {
+    if ([signal count] < FPS * 1) {
         return;
     }
 
     [self deleteNanSamplesInSignal:signal];
     [self smoothSignal:signal];
-    [self meanSignal:signal toValue:2 withStep:50];
+    [self meanSignal:signal toValue:2 withStep:150];
     [self runQualityFilterOnSignal:signal];
     [self searchPeaksInSignal:signal numberOfPeaksToFind:10 completionHandel:^(BOOL success, float pulse) {
 
@@ -145,15 +150,11 @@
                 signal[i] = @([signal[i-1] floatValue]);
             }
         }
-        signal[i] = @(-[signal[i] floatValue]);
+        signal[i] = @(-[signal[i] floatValue] < 0.1 ? 0 : -[signal[i] floatValue] );
     }
 }
 
 - (void)smoothSignal:(NSMutableArray*)signal {
-
-    if (signal.count < 5) {
-        return;
-    }
 
     NSMutableArray *sCopy = [[NSMutableArray alloc] initWithArray:signal];
     for (int i = 2; i < [signal count] - 2; i++) {
@@ -162,10 +163,6 @@
 }
 
 - (void)meanSignal:(NSMutableArray*)signal toValue:(float)meanValue withStep:(NSInteger)step {
-
-    if (signal.count < step) {
-        return;
-    }
 
     NSMutableArray *meanSignal = [NSMutableArray new];
     for (int i = 0; i <= [signal count] - step; i += step) {
@@ -181,6 +178,7 @@
 
         float ratio = meanValue / maxValue;
         for (int j = 0; j < [stepArray count]; j++) {
+
             stepArray[j] = @(ratio * [stepArray[j] floatValue]);
         }
 
@@ -202,29 +200,28 @@
         stepArray[j] = @(ratio * [stepArray[j] floatValue]);
     }
     [meanSignal addObjectsFromArray:stepArray];
-
     if ([meanSignal count] == [signal count]) {
 
         for (int i = 0; i < [signal count]; i++) {
             signal[i] = @([meanSignal[i] floatValue]);
         }
-        
+
     }
 }
 
 - (void)meanSignalForDrawing:(NSMutableArray*)signal{
 
     float maxValue = -MAXFLOAT;
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < VISABLE_SAMPLES; i++) {
         NSNumber *value = signal[i];
-        if ([value floatValue] > maxValue) {
-            maxValue = [value floatValue];
+        if (ABS([value floatValue]) > maxValue) {
+            maxValue = ABS([value floatValue]);
         }
     }
 
-    float ratio = maxValue == 0 ? 0 : 1 / maxValue;
-
-    for (int j = 0; j < 100; j++) {
+    float ratio = maxValue < 0.1 ? 0 : 2 / maxValue;
+    NSLog(@"Ratio: %f", ratio);
+    for (int j = 0; j < VISABLE_SAMPLES; j++) {
         signal[j] = @(ratio * [signal[j] floatValue]);
     }
 }
@@ -234,6 +231,10 @@
 
         float floatValue = MAX(0,[signal[i] floatValue]);
         signal[i] = @(floatValue * floatValue);
+
+        if ([signal[i] floatValue] < 1) {
+            signal[i] = @(0);
+        }
 
     }
 }
@@ -250,7 +251,7 @@
     for (int i = 1; i < [signal count] - 1; i++) {
         if (peakFound) {
             delayCount++;
-            if (delayCount > 6) {
+            if (delayCount > 18) {
                 delayCount = 0;
                 peakFound = false;
             } else {
@@ -262,7 +263,7 @@
         float curr = [signal[i] floatValue];
         float next = [signal[i+1] floatValue];
 
-        if (curr > prev && curr > next) {
+        if (curr > prev && curr > next && curr > 0.5) {
             [peaks addObject:@(i)];
             [peakvals addObject:signal[i]];
             peakFound = true;
@@ -279,26 +280,29 @@
             BOOL pulseFound = true;
             for (int j = 1; j < [peaks count]; j++) {
                 float dist = [peaks[j] floatValue] - [peaks[j-1] floatValue];
-                if (dist > meanDist * 1.2) {
+                if (dist > meanDist * 1.2 || dist < 0.8 * meanDist) {
                     pulseFound = false;
                 }
             }
             if (pulseFound) {
                 handler(YES, 60*FPS/meanDist);
+                NSLog(@"Pulse found %f",60*FPS/meanDist);
                 return;
+            } else {
+                NSLog(@"Samples rejected %f",60*FPS/meanDist);
             }
-
+            
             peaks = [NSMutableArray new];
             peakvals = [NSMutableArray new];
-
+            
         }
     }
     handler(NO,0);
 }
 
 - (void)dealloc {
-	self.points = nil;
+    self.points = nil;
+    
 }
-
 
 @end

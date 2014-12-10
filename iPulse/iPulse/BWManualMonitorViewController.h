@@ -26,28 +26,10 @@
 
  https://github.com/Wojdan/iPulse
  */
-
 #import <UIKit/UIKit.h>
 
-@protocol HeartRateChartDelegate <NSObject>
+@interface BWManualMonitorViewController : UIViewController
 
-- (void)foundHeartRate:(NSNumber *)rate;
-- (void)updateInfoLabel:(NSString *)info;
-
-@end
-
-@interface HeartRateChart : UIView {
-    NSMutableArray *points;
-    NSMutableArray *pointsToDraw;
-}
-
-@property (nonatomic, assign) id<HeartRateChartDelegate> delegate;
-@property (nonatomic, retain) NSMutableArray *points;
-@property (nonatomic, retain) NSMutableArray *pointsToDraw;
-@property (nonatomic, retain) NSMutableArray *filteredPoints;
-@property (nonatomic) int pointCount;
-
-
--(void) addPoint:(NSNumber *) newPoint;
++ (BWManualMonitorViewController*)controller;
 
 @end
