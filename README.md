@@ -15,6 +15,7 @@ Heart Rate Monitor working in 3 modes:
 ![Xcode Logo](https://devimages.apple.com.edgekey.net/assets/elements/icons/128x128/xcode.png)
 
 ## Screenshots ##
+<center>
 <img src="https://github.com/Wojdan/iPulse/blob/screens/Screens/IMG_0748.PNG" width="250"/>
 <img src="https://github.com/Wojdan/iPulse/blob/screens/Screens/IMG_0749.PNG" width="250"/>
 <img src="https://github.com/Wojdan/iPulse/blob/screens/Screens/IMG_0754.PNG" width="250"/>
@@ -24,4 +25,4 @@ Heart Rate Monitor working in 3 modes:
 <img src="https://github.com/Wojdan/iPulse/blob/screens/Screens/IMG_0747.PNG" width="250"/>
 <img src="https://github.com/Wojdan/iPulse/blob/screens/Screens/IMG_0753.PNG" width="250"/>
 <img src="https://github.com/Wojdan/iPulse/blob/screens/Screens/IMG_0758.PNG" width="250"/>
-<img src="https://github.com/Wojdan/iPulse/blob/screens/Screens/IMG_0760.PNG" width="250"/>
+</center>
