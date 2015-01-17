@@ -8,7 +8,7 @@ Heart Rate Monitor working in 3 modes:
 ## Technologies ##
 
 * language: [Objective-C](http://pl.wikipedia.org/wiki/Objective-C)
-* target: [iOS](http://pl.wikipedia.org/wiki/IOS) 7.1
+* deployment target: [iOS 7.1](http://pl.wikipedia.org/wiki/IOS)
 * IDE: [Xcode 6.1](http://pl.wikipedia.org/wiki/Xcode)
 
 ![iOS Logo](http://thexbmcguide.com/wp-content/uploads/2012/03/ios-logo.jpg)
