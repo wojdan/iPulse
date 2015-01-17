@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="9kf-o3-jYe">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <scenes>
+        <!--Instructions View Controller-->
+        <scene sceneID="umu-uV-dAo">
+            <objects>
+                <viewController id="9kf-o3-jYe" customClass="BWInstructionsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vAh-EX-fGN"/>
+                        <viewControllerLayoutGuide type="bottom" id="snt-hE-lsL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9C1-z8-BDm">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UhM-vN-OZ8">
+                                <rect key="frame" x="0.0" y="101" width="320" height="367"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="select examination method" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ITz-DY-LNu">
+                                        <rect key="frame" x="10" y="136" width="301" height="32"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="27"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="QDt-Fh-n93">
+                                        <rect key="frame" x="108" y="0.0" width="104" height="116"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9oV-mB-kT6">
+                                        <rect key="frame" x="10" y="188" width="300" height="21"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gg2-aW-z0S">
+                                        <rect key="frame" x="89" y="224" width="143" height="143"/>
+                                        <state key="normal" image="start_button.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted" image="start_button_highlighted.png">
+                                            <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="startButtonClicked:" destination="9kf-o3-jYe" eventType="touchUpInside" id="mAl-cJ-cTv"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="9oV-mB-kT6" firstAttribute="top" secondItem="ITz-DY-LNu" secondAttribute="bottom" constant="20" id="08t-fS-oqk"/>
+                                    <constraint firstAttribute="centerX" secondItem="gg2-aW-z0S" secondAttribute="centerX" id="C7c-Y1-4BA"/>
+                                    <constraint firstItem="ITz-DY-LNu" firstAttribute="top" secondItem="QDt-Fh-n93" secondAttribute="bottom" constant="20" id="G9d-0x-KoZ"/>
+                                    <constraint firstItem="gg2-aW-z0S" firstAttribute="top" secondItem="9oV-mB-kT6" secondAttribute="bottom" constant="15" id="HAH-2x-a5v"/>
+                                    <constraint firstAttribute="bottom" secondItem="gg2-aW-z0S" secondAttribute="bottom" id="Ir2-Vd-ZUJ"/>
+                                    <constraint firstAttribute="centerX" secondItem="QDt-Fh-n93" secondAttribute="centerX" id="Tfi-ua-yGG"/>
+                                    <constraint firstAttribute="centerX" secondItem="ITz-DY-LNu" secondAttribute="centerX" id="U4C-q6-fVf"/>
+                                    <constraint firstItem="QDt-Fh-n93" firstAttribute="top" secondItem="UhM-vN-OZ8" secondAttribute="top" id="bpf-af-gAm"/>
+                                    <constraint firstAttribute="trailing" secondItem="9oV-mB-kT6" secondAttribute="trailing" constant="10" id="cFb-wH-UZ1"/>
+                                    <constraint firstItem="9oV-mB-kT6" firstAttribute="leading" secondItem="UhM-vN-OZ8" secondAttribute="leading" constant="10" id="tOX-eg-FSl"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zHM-rA-yhd">
+                                <rect key="frame" x="60" y="516" width="200" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="LuZ-Qe-Gfq"/>
+                                    <constraint firstAttribute="width" constant="200" id="ZST-Rc-Y71"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
+                                <state key="normal" title="Go Back">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="backButtonClicked:" destination="9kf-o3-jYe" eventType="touchUpInside" id="fNE-ZG-Ece"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="UhM-vN-OZ8" secondAttribute="trailing" id="514-e7-bvI"/>
+                            <constraint firstItem="snt-hE-lsL" firstAttribute="top" secondItem="zHM-rA-yhd" secondAttribute="bottom" constant="8" id="XsM-BI-bOb"/>
+                            <constraint firstItem="UhM-vN-OZ8" firstAttribute="leading" secondItem="9C1-z8-BDm" secondAttribute="leading" id="Ykz-oa-S1x"/>
+                            <constraint firstAttribute="centerX" secondItem="zHM-rA-yhd" secondAttribute="centerX" id="dOA-T0-Z4l"/>
+                            <constraint firstAttribute="centerY" secondItem="UhM-vN-OZ8" secondAttribute="centerY" id="wKB-SD-txy"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="1Wj-oc-bZL"/>
+                    <connections>
+                        <outlet property="instructionsLabel" destination="9oV-mB-kT6" id="dtG-UE-5pl"/>
+                        <outlet property="methodIconImageView" destination="QDt-Fh-n93" id="wPv-CI-u17"/>
+                        <outlet property="methodNameLabel" destination="ITz-DY-LNu" id="w2i-K0-vV7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rJq-Vx-SQ6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="703" y="293"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="logo.png" width="104" height="116"/>
+        <image name="start_button.png" width="143" height="143"/>
+        <image name="start_button_highlighted.png" width="143" height="143"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

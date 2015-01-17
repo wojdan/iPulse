@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="S7f-Cx-iwC">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Microphone View Controller-->
+        <scene sceneID="X8p-Qa-Odf">
+            <objects>
+                <viewController id="S7f-Cx-iwC" customClass="BWMicrophoneViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6ox-DM-eVL"/>
+                        <viewControllerLayoutGuide type="bottom" id="cfX-PL-oWg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="uJH-oJ-ByU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9gI-YH-2FQ">
+                                <rect key="frame" x="60" y="516" width="200" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="n5Z-hP-uJ6"/>
+                                    <constraint firstAttribute="height" constant="44" id="vdO-58-qKP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
+                                <state key="normal" title="Go Back">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="backButtonClicked:" destination="S7f-Cx-iwC" eventType="touchUpInside" id="dzI-yp-K4X"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Heart rate monitor" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zt3-vq-ViI">
+                                <rect key="frame" x="10" y="28" width="186" height="30"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="25"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Hug-nj-JfK">
+                                <rect key="frame" x="278" y="35" width="26" height="23"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="monitor_bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="grB-1z-Hpr">
+                                <rect key="frame" x="0.0" y="62" width="324" height="154"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bsr-q0-0ev" customClass="HearBeatChart">
+                                <rect key="frame" x="0.0" y="79" width="320" height="120"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="Gc0-Do-fi3"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TFX-uc-R1M">
+                                <rect key="frame" x="0.0" y="224" width="320" height="284"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mEG-bI-CvZ">
+                                        <rect key="frame" x="77" y="34" width="167" height="217"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="result_area.png" translatesAutoresizingMaskIntoConstraints="NO" id="Qlv-46-WTN">
+                                                <rect key="frame" x="0.0" y="50" width="167" height="167"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="167" id="Rph-Az-vuT"/>
+                                                    <constraint firstAttribute="width" constant="167" id="jSC-CC-zO8"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pulse" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r9I-ke-wFH">
+                                                <rect key="frame" x="44" y="0.0" width="79" height="42"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="36"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="not recognized yet" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wRZ-LR-8lw">
+                                                <rect key="frame" x="29" y="80" width="108" height="108"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="108" id="Qfh-kP-z3V"/>
+                                                    <constraint firstAttribute="width" constant="108" id="tst-Xc-wfo"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="23"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="73" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BW2-TG-NFo">
+                                                <rect key="frame" x="51" y="90" width="65" height="67"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="58"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BPM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qox-t5-ipC">
+                                                <rect key="frame" x="58" y="147" width="51" height="30"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="25"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="r9I-ke-wFH" firstAttribute="top" secondItem="mEG-bI-CvZ" secondAttribute="top" id="1fn-4O-hit"/>
+                                            <constraint firstItem="Qlv-46-WTN" firstAttribute="centerX" secondItem="BW2-TG-NFo" secondAttribute="centerX" id="6UK-zx-BdP"/>
+                                            <constraint firstItem="Qlv-46-WTN" firstAttribute="centerY" secondItem="BW2-TG-NFo" secondAttribute="centerY" constant="10" id="8YW-gH-odm"/>
+                                            <constraint firstAttribute="trailing" secondItem="Qlv-46-WTN" secondAttribute="trailing" id="917-dg-vJY"/>
+                                            <constraint firstItem="Qox-t5-ipC" firstAttribute="top" secondItem="BW2-TG-NFo" secondAttribute="bottom" constant="-10" id="BtD-lU-l5w"/>
+                                            <constraint firstItem="Qlv-46-WTN" firstAttribute="centerY" secondItem="wRZ-LR-8lw" secondAttribute="centerY" id="PjW-rf-2qi"/>
+                                            <constraint firstAttribute="bottom" secondItem="Qlv-46-WTN" secondAttribute="bottom" id="S1k-xP-5Ha"/>
+                                            <constraint firstItem="Qlv-46-WTN" firstAttribute="centerX" secondItem="wRZ-LR-8lw" secondAttribute="centerX" id="U31-RH-SJA"/>
+                                            <constraint firstItem="BW2-TG-NFo" firstAttribute="centerX" secondItem="Qox-t5-ipC" secondAttribute="centerX" id="ltn-K0-eda"/>
+                                            <constraint firstItem="Qlv-46-WTN" firstAttribute="leading" secondItem="mEG-bI-CvZ" secondAttribute="leading" id="sKY-48-JC4"/>
+                                            <constraint firstItem="Qlv-46-WTN" firstAttribute="top" secondItem="r9I-ke-wFH" secondAttribute="bottom" constant="8" id="wLH-N6-iSG"/>
+                                            <constraint firstItem="Qlv-46-WTN" firstAttribute="centerX" secondItem="r9I-ke-wFH" secondAttribute="centerX" id="x2g-Dn-hxP"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="mEG-bI-CvZ" secondAttribute="centerX" id="BJz-ZY-Z7L"/>
+                                    <constraint firstAttribute="centerY" secondItem="mEG-bI-CvZ" secondAttribute="centerY" id="LpC-Aq-3ua"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="zt3-vq-ViI" firstAttribute="top" secondItem="6ox-DM-eVL" secondAttribute="bottom" constant="8" id="2es-rV-ilX"/>
+                            <constraint firstItem="zt3-vq-ViI" firstAttribute="leading" secondItem="uJH-oJ-ByU" secondAttribute="leading" constant="10" id="5m4-TZ-SKd"/>
+                            <constraint firstItem="TFX-uc-R1M" firstAttribute="leading" secondItem="uJH-oJ-ByU" secondAttribute="leading" id="6bq-hf-29W"/>
+                            <constraint firstItem="grB-1z-Hpr" firstAttribute="top" secondItem="Hug-nj-JfK" secondAttribute="bottom" constant="4" id="6zR-P7-qqD"/>
+                            <constraint firstItem="TFX-uc-R1M" firstAttribute="top" secondItem="grB-1z-Hpr" secondAttribute="bottom" constant="8" id="AcM-eU-Cff"/>
+                            <constraint firstItem="grB-1z-Hpr" firstAttribute="leading" secondItem="uJH-oJ-ByU" secondAttribute="leading" id="Ahd-82-co7"/>
+                            <constraint firstItem="grB-1z-Hpr" firstAttribute="top" secondItem="zt3-vq-ViI" secondAttribute="bottom" constant="4" id="ROw-bQ-URx"/>
+                            <constraint firstItem="Bsr-q0-0ev" firstAttribute="centerY" secondItem="grB-1z-Hpr" secondAttribute="centerY" id="Vaj-9g-Lj4"/>
+                            <constraint firstAttribute="trailing" secondItem="Bsr-q0-0ev" secondAttribute="trailing" id="bxA-p1-LRK"/>
+                            <constraint firstAttribute="centerX" secondItem="9gI-YH-2FQ" secondAttribute="centerX" id="g31-p0-Ymp"/>
+                            <constraint firstItem="cfX-PL-oWg" firstAttribute="top" secondItem="9gI-YH-2FQ" secondAttribute="bottom" constant="8" id="gvz-No-5aB"/>
+                            <constraint firstAttribute="trailing" secondItem="TFX-uc-R1M" secondAttribute="trailing" id="hYR-IP-XKc"/>
+                            <constraint firstItem="Bsr-q0-0ev" firstAttribute="leading" secondItem="uJH-oJ-ByU" secondAttribute="leading" id="jiD-9X-hmA"/>
+                            <constraint firstItem="9gI-YH-2FQ" firstAttribute="top" secondItem="TFX-uc-R1M" secondAttribute="bottom" constant="8" id="m1m-7t-JbO"/>
+                            <constraint firstItem="Hug-nj-JfK" firstAttribute="trailing" secondItem="uJH-oJ-ByU" secondAttribute="trailingMargin" id="rlj-7D-u8T"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="kVm-wL-3Lc"/>
+                    <connections>
+                        <outlet property="bpmLabel" destination="Qox-t5-ipC" id="Ag7-cf-Ifw"/>
+                        <outlet property="chart" destination="Bsr-q0-0ev" id="M0L-MC-D0Z"/>
+                        <outlet property="heartIcon" destination="Hug-nj-JfK" id="kxa-7N-Xv8"/>
+                        <outlet property="infoLabel" destination="wRZ-LR-8lw" id="r5Y-gd-ccm"/>
+                        <outlet property="pulseLabel" destination="BW2-TG-NFo" id="Y76-iP-M8l"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KTM-Rr-TnG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="199.46666666666667" y="262.22666666666669"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="heart_icon.png" width="26" height="23"/>
+        <image name="monitor_bg.png" width="324" height="154"/>
+        <image name="result_area.png" width="167" height="167"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
